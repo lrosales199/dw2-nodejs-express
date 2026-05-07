@@ -10,8 +10,11 @@ const router = express.Router();
 // Importando o Model de Cliente
 import Cliente from "../models/Cliente.js";
 
+// Importando o Middleware de Autenticação
+import Auth from "../middlewares/Auth.js"
+
 // ROTA CLIENTES
-router.get("/clientes", function (req, res) {
+router.get("/clientes", Auth, function (req, res) {
   // const clientes = [
   //   {
   //     nome: "Ana Silva",
@@ -52,7 +55,7 @@ router.get("/clientes", function (req, res) {
 });
 
 // Rota de Cadastro de Clientes (subrota / cadastrar)
-router.post("/clientes/cadastrar", (req, res) => {
+router.post("/clientes/cadastrar", Auth, (req, res) => {
   // Criando as Variáveis que irão armazenar os dados vindos do Formulario
   const nome = req.body.nome;
   const cpf = req.body.cpf;
@@ -74,7 +77,7 @@ router.post("/clientes/cadastrar", (req, res) => {
 });
 
 // Rota de Exclusão de Cliente
-router.get("/clientes/excluir/:id", (req, res) => {
+router.get("/clientes/excluir/:id", Auth, (req, res) => {
   // Capturando o parâmetro da rota
   const id = req.params.id;
   // Enviando o ID do cliente para apagar do banco de dados
@@ -92,7 +95,7 @@ router.get("/clientes/excluir/:id", (req, res) => {
 });
 
 // Rota de Edição de Cliente
-router.get("/clientes/editar/:id", (req, res) => {
+router.get("/clientes/editar/:id", Auth, (req, res) => {
   const id = req.params.id;
   // Buscando o cliente no Banco
   Cliente.findByPk(id).then((cliente) => {
